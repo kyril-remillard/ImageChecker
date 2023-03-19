@@ -1,28 +1,35 @@
 from flask import Flask, request, jsonify, Response
-from PIL import Image
+import requests
+from image_data import labelbox_image_data, labelbox_image_queue
+from helper_functions import is_accessible, validate_image_attributes
 
-def validate_image(image_path, notifications):
-  errors = []
-  try:
-    image = Image.open(image_path)
-    
-    width, height = image.size
-    if width > 1000:
-      errors.append('Width cannot be over 1000 pixels')
-    
-    if height > 1000:
-      errors.append('Height cannot be over 1000 pixels')
-    
-    if image.format != 'JPEG':
-      errors.append('Image format must be JPEG')
-  except:
-    errors.append('File must be a valid image file')
+def validate_image(image_data):
+  image_path = labelbox_image_data[f'{image_data["id"]}']["image_path"]
+  errors = {}
+  
+  if is_accessible(image_path) == False:
+    errors["access"] = 'File is not reachable by the server'
+    payload = {
+      "id" : image_data["id"],
+      "state" : "failed",
+      "errors" : errors
+    }
+    return payload 
+  
+  errors = validate_image_attributes(image_path)
   
   if errors:
-    response = {
-      "errors" : errors,
-      "next_step" : f'Send it to the following webhook endpoint: {notifications["onFailure"]}'
+    payload = {
+      "id" : image_data["id"],
+      "state" : "failed",
+      "errors" : errors
     }
-    return jsonify(response), 202
+    # requests.post(image_data["notifications"]["onFailure"], payload)
+    return payload
   else:
-    return jsonify('The image was successfully validated. Send to --> "onSuccess": "http://somevalidurl.com"'), 202
+    payload = {
+      "id" : image_data["id"],
+      "state" : "success",
+    }
+    # requests.post(image_data["notifications"]["onSuccess"], payload)
+    return payload
