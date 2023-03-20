@@ -3,10 +3,12 @@ from PIL import Image
 import constants
 import validators
 import requests
-
+from image_data import labelbox_image_data
 def is_accessible(image_path):
   return os.access(image_path, os.R_OK)
 
+def set_validation_state(image_id, state):
+    labelbox_image_data[image_id]["state"] = state
 
 # NOTIFICATION FUNCTIONS
 
