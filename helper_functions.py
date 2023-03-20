@@ -11,29 +11,29 @@ def is_accessible(image_path):
 # NOTIFICATION FUNCTIONS
 
 def send_start_notification(image_data):
-  on_start_webhook_url = image_data["notifications"]["onStart"]
-  on_start_payload = {
+  webhook_url = image_data["notifications"]["onStart"]
+  payload = {
     "id" : image_data["id"],
     "state" : "started",
   }
-  requests.post(on_start_webhook_url, on_start_payload)
+  requests.post(webhook_url, payload)
 
 def send_failure_notification(image_data, errors):
+  webhook_url = image_data["notifications"]["onFailure"]
   payload = {
       "id" : image_data["id"],
       "state" : "failed",
       "errors" : errors
     }
-  webhook_url = image_data["notifications"]["onFailure"]
   requests.post(webhook_url, payload)
 
 def send_success_notification(image_data):
-  on_start_webhook_url = image_data["notifications"]["onSuccess"]
-  on_start_payload = {
+  webhook_url = image_data["notifications"]["onSuccess"]
+  payload = {
     "id" : image_data["id"],
     "state" : "success",
   }
-  requests.post(on_start_webhook_url, on_start_payload)
+  requests.post(webhook_url, payload)
 
 
 # VALIDATION FUNCTIONS
