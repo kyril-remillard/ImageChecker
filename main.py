@@ -24,7 +24,7 @@ def handle_request():
       response = {
         "errors" : notification_url_errors
       }
-      return jsonify(response), 200
+      return jsonify(response), 400
   
     image_id =  uuid.uuid4()
     image_data = {
