@@ -1,35 +1,26 @@
-from flask import Flask, request, jsonify, Response
-import requests
-from image_data import labelbox_image_data, labelbox_image_queue
-from helper_functions import is_accessible, validate_image_attributes
+from helper_functions import is_accessible, validate_image_attributes, send_start_notification, send_failure_notification, send_success_notification
+
 
 def validate_image(image_data):
-  image_path = labelbox_image_data[f'{image_data["id"]}']["image_path"]
+  send_start_notification(image_data)
+  
   errors = {}
   
-  if is_accessible(image_path) == False:
-    errors["access"] = 'File is not reachable by the server'
-    payload = {
-      "id" : image_data["id"],
-      "state" : "failed",
-      "errors" : errors
-    }
-    return payload 
+  image_path = image_data["image_path"]
   
+  # STEP 1: Check if image is accessible by the server
+  if is_accessible(image_data["image_path"]) == False:
+    errors["access"] = 'File is not reachable by the server'
+    send_failure_notification(image_path, errors)
+    return
+  
+  # STEP 2: Validate image attributes: height, width, file size & file type
   errors = validate_image_attributes(image_path)
   
   if errors:
-    payload = {
-      "id" : image_data["id"],
-      "state" : "failed",
-      "errors" : errors
-    }
-    # requests.post(image_data["notifications"]["onFailure"], payload)
-    return payload
+    send_failure_notification(image_path, errors)
+    return
+  
   else:
-    payload = {
-      "id" : image_data["id"],
-      "state" : "success",
-    }
-    # requests.post(image_data["notifications"]["onSuccess"], payload)
-    return payload
+    send_success_notification(image_data)
+    return
