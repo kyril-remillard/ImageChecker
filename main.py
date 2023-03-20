@@ -24,7 +24,7 @@ def handle_request():
       response = {
         "errors" : notification_url_errors
       }
-      return jsonify(response), 201
+      return jsonify(response), 200
   
     image_id =  uuid.uuid4()
     image_data = {
@@ -50,7 +50,7 @@ def handle_request():
     response = {
       "errors": "file not found"
     }
-    return jsonify(response), 201
+    return jsonify(response), 404
 
 @app.route('/assets/images/<id>', methods = ['GET'])
 def get_image_info(id):
@@ -59,12 +59,12 @@ def get_image_info(id):
       "id" : id,
       "state" : labelbox_image_data[id]["state"]
     }
-    return jsonify(response), 202
+    return jsonify(response), 200
   else:
     response = {
       "errors" : f'the provided image id is invalid [{id}]'
     }
-    return jsonify(response), 202
+    return jsonify(response), 404
      
 if __name__ == "__main__":
   app.run(debug=True)
