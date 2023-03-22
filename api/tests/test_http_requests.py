@@ -15,7 +15,7 @@ def test_post_route_success():
     }
     mock_request_data = {
       "assetPath": { 
-          "location": "/Users/kyrildoubson-remillard/Desktop/ImageChecker/",
+          "location": "/Users/kyrildoubson-remillard/Desktop/image_checker/",
           "path": "test_images/butterfly-blue-insect-drawing.jpeg"
       },
       "notifications": {
@@ -39,7 +39,7 @@ def test_post_route_failure_file_not_found():
   }
   mock_request_data = {
     "assetPath": { 
-        "location": "/Users/kyrildoubson-remillard/Desktop/ImageChecker/",
+        "location": "/Users/kyrildoubson-remillard/Desktop/image_checker/",
         "path": "invalid_path"
     },
     "notifications": {
@@ -68,7 +68,7 @@ def test_post_route_failure_invalid_notification_urls():
   }
   mock_request_data = {
     "assetPath": { 
-        "location": "/Users/kyrildoubson-remillard/Desktop/ImageChecker/",
+        "location": "/Users/kyrildoubson-remillard/Desktop/image_checker/",
         "path": "test_images/Random_pyramids.jpeg"
         
     },

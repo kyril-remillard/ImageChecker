@@ -3,8 +3,8 @@ sys.path.append('..')
 from api.api_functions import file_is_accessible, valid_url, validate_urls, validate_file_access
 
 def test_file_is_accessible():
-  valid_file_path = "/Users/kyrildoubson-remillard/Desktop/ImageChecker/" + "test_images/butterfly-blue-insect-drawing.jpeg"
-  invalid_file_path = "/Users/kyrildoubson-remillard/Desktop/ImageChecker/" + "/invalid_location"
+  valid_file_path = "/Users/kyrildoubson-remillard/Desktop/image_checker/" + "test_images/butterfly-blue-insect-drawing.jpeg"
+  invalid_file_path = "/Users/kyrildoubson-remillard/Desktop/image_checker/" + "/invalid_location"
   assert file_is_accessible(valid_file_path) == True
   assert file_is_accessible(invalid_file_path) == False
 
@@ -33,8 +33,8 @@ def test_validate_urls():
   }
 
 def test_validate_file_access():
-  valid_file_path = "/Users/kyrildoubson-remillard/Desktop/ImageChecker/" + "test_images/butterfly-blue-insect-drawing.jpeg"
-  invalid_file_path = "/Users/kyrildoubson-remillard/Desktop/ImageChecker/" + "/invalid_location"
+  valid_file_path = "/Users/kyrildoubson-remillard/Desktop/image_checker/" + "test_images/butterfly-blue-insect-drawing.jpeg"
+  invalid_file_path = "/Users/kyrildoubson-remillard/Desktop/image_checker/" + "/invalid_location"
   
   assert validate_file_access(valid_file_path) == {}
   assert validate_file_access(invalid_file_path) == {
